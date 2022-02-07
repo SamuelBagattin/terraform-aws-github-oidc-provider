@@ -1,0 +1,7 @@
+brew "awscli"
+brew "ca-certificates"
+brew "pre-commit"
+brew "terraform@1.1"
+brew "tflint"
+brew "tfsec"
+brew "terraform-docs"

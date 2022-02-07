@@ -1,0 +1,46 @@
+name: "lint"
+on:
+  push:
+  pull_request:
+
+jobs:
+  terraform:
+    name: "terraform"
+    runs-on: "ubuntu-latest"
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v1
+      - name: terraform fmt
+        run: terraform fmt -recursive -check=true
+      - name: terraform validate
+        run: terraform validate
+  tflint:
+    name: "tflint"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/cache@v2
+        name: Cache tflint plugin dir
+        with:
+          path: ~/.tflint.d/plugins
+          key: ${{ matrix.os }}-tflint-${{ hashFiles('.tflint.hcl') }}
+      - uses: terraform-linters/setup-tflint@v1
+        name: Setup TFLint
+      - name: Init TFLint
+        run: tflint --init
+      - name: Run TFLint
+        run: tflint -f compact --config tflint.hcl
+  tfsec:
+    name: "tfsec"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Run tfsec with reviewdog output on the PR
+        uses: reviewdog/action-tfsec@master
+        with:
+          github_token: ${{ secrets.github_token }}
+          level: info
+          fail_on_error: true
+
+
