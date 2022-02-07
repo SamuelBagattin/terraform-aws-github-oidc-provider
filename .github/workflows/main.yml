@@ -11,6 +11,11 @@ jobs:
       - uses: actions/checkout@v2
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v1
+      - name: Cache tflint plugin dir
+        uses: actions/cache@v2
+        with:
+          path: ./.terraform
+          key: terraform
       - name: terraform fmt
         run: terraform fmt -recursive -check=true
       - name: terraform validate
