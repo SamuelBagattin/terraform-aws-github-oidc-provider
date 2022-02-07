@@ -28,7 +28,7 @@ jobs:
       - uses: terraform-linters/setup-tflint@v1
         name: Setup TFLint
       - name: Init TFLint
-        run: tflint --init
+        run: tflint --init --config tflint.hcl
       - name: Run TFLint
         run: tflint -f compact --config tflint.hcl
   tfsec:

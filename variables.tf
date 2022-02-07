@@ -10,8 +10,8 @@ variable "policies_arns" {
 }
 
 variable "role_name" {
-  type = string
-  default = "githubActions-iamRole"
+  type        = string
+  default     = "githubActions-iamRole"
   description = "Name of the IAM role that can be assumed by Github Actions"
 }
 
