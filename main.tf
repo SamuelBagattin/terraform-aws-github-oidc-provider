@@ -37,7 +37,7 @@ data "aws_iam_policy_document" "github_actions_assumerole" {
 }
 
 resource "aws_iam_role_policy_attachment" "github_actions" {
-  for_each   = { for v in var.policies_arns : split("/", v)[-1] => v }
+  for_each   = { for v in var.policies_arns : v => v }
   policy_arn = each.value
   role       = aws_iam_role.github_actions.name
 }
