@@ -24,7 +24,7 @@ data "aws_iam_policy_document" "github_actions_assumerole" {
   statement {
     effect = "Allow"
     principals {
-      identifiers = [aws_iam_openid_connect_provider.github_actions.arn]
+      identifiers = [aws_iam_openid_connect_provider.github_actions.url]
       type        = "Federated"
     }
     actions = ["sts:AssumeRole"]
