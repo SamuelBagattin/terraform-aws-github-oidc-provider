@@ -13,26 +13,25 @@ This module allows you to create a Github OIDC provider for your AWS account, th
 
 ## Modules
 
-No modules.
+| Name | Source | Version |
+|------|--------|---------|
+| <a name="module_github_actions_assumable_role"></a> [github\_actions\_assumable\_role](#module\_github\_actions\_assumable\_role) | ./modules/github_actions_assumable_role | n/a |
 
 ## Resources
 
 | Name | Type |
 |------|------|
 | [aws_iam_openid_connect_provider.github_actions](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_openid_connect_provider) | resource |
-| [aws_iam_role.github_actions](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role) | resource |
-| [aws_iam_role_policy_attachment.github_actions](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy_attachment) | resource |
-| [aws_iam_policy_document.github_actions_assumerole](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
 
 ## Inputs
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_policies_arns"></a> [policies\_arns](#input\_policies\_arns) | List of AWS IAM policies to attach to the role | `set(string)` | `[]` | no |
-| <a name="input_repositories"></a> [repositories](#input\_repositories) | Github Repositories than can assumerole | `map(map(any))` | n/a | yes |
-| <a name="input_role_name"></a> [role\_name](#input\_role\_name) | Name of the IAM role that can be assumed by Github Actions | `string` | `"githubActions-iamRole"` | no |
+| <a name="input_permissions"></a> [permissions](#input\_permissions) | Github Repositories than can assumerole | `map(any)` | n/a | yes |
 
 ## Outputs
 
-No outputs.
+| Name | Description |
+|------|-------------|
+| <a name="output_roles_arns"></a> [roles\_arns](#output\_roles\_arns) | Roles to be assumed by github actions |
 <!-- END_TF_DOCS -->

@@ -15,29 +15,12 @@ resource "aws_iam_openid_connect_provider" "github_actions" {
   url = "https://token.actions.githubusercontent.com"
 }
 
-resource "aws_iam_role" "github_actions" {
-  name               = var.role_name
-  assume_role_policy = data.aws_iam_policy_document.github_actions_assumerole.json
-}
+module "github_actions_assumable_role" {
+  source   = "./modules/github_actions_assumable_role"
+  for_each = local.github_subs_by_role
 
-data "aws_iam_policy_document" "github_actions_assumerole" {
-  statement {
-    effect = "Allow"
-    principals {
-      identifiers = [aws_iam_openid_connect_provider.github_actions.arn]
-      type        = "Federated"
-    }
-    actions = ["sts:AssumeRoleWithWebIdentity"]
-    condition {
-      test     = "StringLike"
-      values   = local.github_subs
-      variable = "token.actions.githubusercontent.com:sub"
-    }
-  }
-}
-
-resource "aws_iam_role_policy_attachment" "github_actions" {
-  for_each   = { for v in var.policies_arns : v => v }
-  policy_arn = each.value
-  role       = aws_iam_role.github_actions.name
+  github_subs       = each.value["github_subs"]
+  iam_role_name     = each.key
+  oidc_provider_arn = aws_iam_openid_connect_provider.github_actions.arn
+  policies_arns     = each.value["policies_arns"]
 }
