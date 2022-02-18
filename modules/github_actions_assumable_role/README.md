@@ -17,9 +17,8 @@ No modules.
 
 | Name | Type |
 |------|------|
-| [aws_iam_role.github_actions](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role) | resource |
-| [aws_iam_role_policy_attachment.github_actions](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy_attachment) | resource |
-| [aws_iam_policy_document.github_actions_assumerole](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
+| [aws_iam_role.this](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role) | resource |
+| [aws_iam_policy_document.this](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
 
 ## Inputs
 
@@ -28,7 +27,6 @@ No modules.
 | <a name="input_github_subs"></a> [github\_subs](#input\_github\_subs) | Values of the 'sub' field that will authorize OIDC users to assume the role | `set(string)` | n/a | yes |
 | <a name="input_iam_role_name"></a> [iam\_role\_name](#input\_iam\_role\_name) | Name of the IAM role | `string` | n/a | yes |
 | <a name="input_oidc_provider_arn"></a> [oidc\_provider\_arn](#input\_oidc\_provider\_arn) | ARN of the github actions AWS oidc provider | `string` | n/a | yes |
-| <a name="input_policies_arns"></a> [policies\_arns](#input\_policies\_arns) | ARNs of the policies that will be attached to the role | `set(string)` | n/a | yes |
 
 ## Outputs
 

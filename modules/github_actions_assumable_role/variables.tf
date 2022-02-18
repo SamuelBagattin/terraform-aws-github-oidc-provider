@@ -8,11 +8,6 @@ variable "iam_role_name" {
   type        = string
 }
 
-variable "policies_arns" {
-  description = "ARNs of the policies that will be attached to the role"
-  type        = set(string)
-}
-
 variable "github_subs" {
   description = "Values of the 'sub' field that will authorize OIDC users to assume the role"
   type        = set(string)

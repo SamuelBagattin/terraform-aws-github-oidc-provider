@@ -10,12 +10,12 @@ terraform {
   }
 }
 
-resource "aws_iam_role" "github_actions" {
+resource "aws_iam_role" "this" {
   name               = var.iam_role_name
-  assume_role_policy = data.aws_iam_policy_document.github_actions_assumerole.json
+  assume_role_policy = data.aws_iam_policy_document.this.json
 }
 
-data "aws_iam_policy_document" "github_actions_assumerole" {
+data "aws_iam_policy_document" "this" {
   statement {
     effect = "Allow"
     principals {
@@ -29,11 +29,4 @@ data "aws_iam_policy_document" "github_actions_assumerole" {
       variable = "token.actions.githubusercontent.com:sub"
     }
   }
-}
-
-resource "aws_iam_role_policy_attachment" "this" {
-  for_each = toset(compact(distinct(var.policies_arns)))
-
-  policy_arn = each.value
-  role       = aws_iam_role.github_actions.name
 }

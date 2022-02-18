@@ -6,6 +6,7 @@
  *
   */
 resource "aws_iam_openid_connect_provider" "github_actions" {
+  count = var.create_oidc_provider ? 1 : 0
   client_id_list = [
     "sts.amazonaws.com",
   ]
@@ -17,10 +18,9 @@ resource "aws_iam_openid_connect_provider" "github_actions" {
 
 module "github_actions_assumable_role" {
   source   = "./modules/github_actions_assumable_role"
-  for_each = local.github_subs_by_role
+  for_each = var.create_iam_roles ? local.github_subs_by_role : {}
 
-  github_subs       = each.value["github_subs"]
+  github_subs       = each.value
   iam_role_name     = each.key
-  oidc_provider_arn = aws_iam_openid_connect_provider.github_actions.arn
-  policies_arns     = each.value["policies_arns"]
+  oidc_provider_arn = var.create_oidc_provider ? aws_iam_openid_connect_provider.github_actions[0].arn : var.oidc_provider_arn
 }

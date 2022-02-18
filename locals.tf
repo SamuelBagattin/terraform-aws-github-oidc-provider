@@ -1,6 +1,5 @@
 locals {
   org_defaults = {
-    policies_arns    = []
     role_name        = "githubActions-iamRole"
     allowed_branches = ["master"]
     repositories = {
@@ -37,7 +36,6 @@ locals {
     for org_name, org_data in local.github_orgs_with_repos : [
       for repo_name, repo_data in org_data["repositories"] : {
         role_name : repo_data["role_name"]
-        policies_arns : repo_data["policies_arns"]
         github_subs : [
           for branch in repo_data["allowed_branches"] : "repo:${org_name}/${repo_name}:ref:refs/heads/${branch}"
       ] }
@@ -45,10 +43,8 @@ locals {
   ])
 
   github_subs_by_role = {
-    for role in local.roles_names : role => {
-      github_subs : flatten(matchkeys([for el in local.github_subs : el["github_subs"]], [for el in local.github_subs : el["role_name"]], [role]))
-      policies_arns : distinct(flatten(matchkeys([for el in local.github_subs : el["policies_arns"]], [for el in local.github_subs : el["role_name"]], [role])))
-    }
+    for role in local.roles_names : role =>
+    flatten(matchkeys([for el in local.github_subs : el["github_subs"]], [for el in local.github_subs : el["role_name"]], [role]))
   }
 
   roles_names = distinct([
