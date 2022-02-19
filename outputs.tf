@@ -5,5 +5,5 @@ output "roles_arns" {
 
 output "oidc_provider_arn" {
   description = "OIDC provider ARN"
-  value       = aws_iam_openid_connect_provider.github_actions[0].arn
+  value       = var.create_oidc_provider ? aws_iam_openid_connect_provider.github_actions[0].arn : var.oidc_provider_arn
 }
