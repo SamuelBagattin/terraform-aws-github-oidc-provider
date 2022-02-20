@@ -6,6 +6,10 @@ output:
   file: "./README.md"
   mode: replace
 
+recursive:
+  enabled: true
+  path: modules
+
 sections:
   hide:
     - providers

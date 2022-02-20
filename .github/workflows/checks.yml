@@ -1,7 +1,6 @@
 name: "lint"
 on:
   push:
-  pull_request:
 
 jobs:
   terraform:
@@ -11,8 +10,15 @@ jobs:
       - uses: actions/checkout@v2
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v1
+      - name: Cache terraform folder
+        uses: actions/cache@v2
+        with:
+          path: ./.terraform
+          key: terraform
       - name: terraform fmt
         run: terraform fmt -recursive -check=true
+      - name: "terraform init"
+        run: terraform init
       - name: terraform validate
         run: terraform validate
   tflint:
@@ -28,7 +34,7 @@ jobs:
       - uses: terraform-linters/setup-tflint@v1
         name: Setup TFLint
       - name: Init TFLint
-        run: tflint --init
+        run: tflint --init --config tflint.hcl
       - name: Run TFLint
         run: tflint -f compact --config tflint.hcl
   tfsec:
@@ -42,5 +48,3 @@ jobs:
           github_token: ${{ secrets.github_token }}
           level: info
           fail_on_error: true
-
-

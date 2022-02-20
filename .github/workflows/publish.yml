@@ -1,0 +1,29 @@
+name: Publish
+
+on:
+  workflow_run:
+    workflows: ["lint"]
+    types:
+      - completed
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: gh cli auth
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | gh auth login --with-token
+
+      - uses: actions/setup-dotnet@v1
+
+      - name: Install GitVersion
+        run: git fetch --unshallow && dotnet tool install --global GitVersion.Tool
+
+      - name: Get semver
+        id: semver
+        run: echo "SEMVER=$(dotnet gitversion | jq -r '.FullSemVer')" >> $GITHUB_ENV
+
+      - name: Create release
+        run: gh release create v${{ env.SEMVER }} -t v${{ env.SEMVER }}
