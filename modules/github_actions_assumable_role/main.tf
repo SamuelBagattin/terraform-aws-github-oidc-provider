@@ -1,6 +1,6 @@
 /*
  * # Github Actions Assumable Role Module
- * This module creates a role and many policies attachments
+ * This module creates a role that can be assumed by github actions
  */
 
 terraform {
