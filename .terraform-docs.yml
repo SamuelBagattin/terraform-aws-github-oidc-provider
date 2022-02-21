@@ -1,10 +1,12 @@
 formatter: "markdown table"
 
-header-from: main.tf
-
 output:
   file: "./README.md"
-  mode: replace
+  mode: inject
+  template: |-
+    <!-- BEGIN_TF_DOCS -->
+    {{ .Content }}
+    <!-- END_TF_DOCS -->
 
 recursive:
   enabled: true

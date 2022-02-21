@@ -1,3 +1,63 @@
+
+# AWS Github OIDC Provider Terraform Module
+
+## Purpose
+This module allows you to create a GitHub OIDC provider and the associated IAM roles, that will help Github Actions to securely authenticate against the AWS API using an IAM role
+
+## Features
+* Create an AWS OIDC provider for GitHub Actions
+* Create one or more IAM role that can be assumed by GitHub Actions
+* IAM roles can be scoped to :
+  * One or more GitHub organisations
+  * One or more GitHub repository
+  * One or more branches in a repository
+
+| Feature                                                                                                | Status |
+|--------------------------------------------------------------------------------------------------------|--------|
+| Create a role for all repositories in a specific Github organisation                                   | ✅      |
+| Create a role specific to a repository for a specific organisation                                     | ✅      |
+| Create a role specific to a branch in a repository                                                     | ✅      |
+| Create a role for multiple organisations/repositories/branches                                         | ✅      |
+| Create a role for organisations/repositories/branches selected by wildcard (e.g. `feature/*` branches) | ✅      | 
+| Create multiple roles for a repository, each one with his own set of branches                          | ❌      |
+| Create the OIDC provider and multiple roles configurations in separate terraform root modules          | ✅      |
+
+## Usage
+TL;DR :
+```hcl
+module "aws_github_actions_oidc" {
+  source  = "registry.terraform.io/SamuelBagattin/github-oidc-provider/aws"
+  permissions = {
+    "my-org" : { # Specify the GitHub organisation name
+      role_name = "default-org-role" # Default role name for subsequent repositories
+      allowed_branches = ["main"] # Default branches for subsequent repositories
+      repositories = {
+        "my-repository" = { # GitHub repository name
+          role_name : "my-role" # IAM role specific to a repository
+          allowed_branches : ["my-branch","my-other-branch", "feature/*"] # List of branches allowed to assume the specific role
+        }
+        "another-repository" = {} # Will inherit role_name and allowed_branches from the organisation
+      }
+    }
+    # The wildcard "*" can be used to allow any org, repository or branch
+    "*": { # Allow any organisation
+      repositories = {
+        "*": { # Allow any repository
+          role_name : "my-role"
+          allowed_branches : ["*"] # Allow any branch
+        }
+      }
+    }
+  }
+}
+```
+
+For more simple or detailed use cases, please refer to the following examples :
+- [Simple example](./examples/simple)
+- [Complete example](./examples/complete)
+- [Separated OIDC provider and IAM roles](./examples/separate_configuration)
+
+
 <!-- BEGIN_TF_DOCS -->
 # AWS Github OIDC Provider Terraform Module
 
