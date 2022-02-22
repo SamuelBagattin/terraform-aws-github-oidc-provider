@@ -1,10 +1,10 @@
 variable "permissions" {
-  description = "Github Repositories than can assumerole"
+  description = "Permissions configuration. See 'Permissions specifications' below"
   type        = map(any)
 }
 
 variable "create_oidc_provider" {
-  description = "Whether or not to create the associated oidc provider. If true, variable 'oidc_provider_arn is required'"
+  description = "Whether or not to create the associated oidc provider. If true, variable 'oidc_provider_arn' is required"
   type        = bool
   default     = true
 }
