@@ -88,9 +88,9 @@ This module allows you to create a Github OIDC provider for your AWS account, th
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | <a name="input_create_iam_roles"></a> [create\_iam\_roles](#input\_create\_iam\_roles) | Whether or not to create IAM roles. | `bool` | `true` | no |
-| <a name="input_create_oidc_provider"></a> [create\_oidc\_provider](#input\_create\_oidc\_provider) | Whether or not to create the associated oidc provider. If true, variable 'oidc\_provider\_arn is required' | `bool` | `true` | no |
+| <a name="input_create_oidc_provider"></a> [create\_oidc\_provider](#input\_create\_oidc\_provider) | Whether or not to create the associated oidc provider. If true, variable 'oidc\_provider\_arn' is required | `bool` | `true` | no |
 | <a name="input_oidc_provider_arn"></a> [oidc\_provider\_arn](#input\_oidc\_provider\_arn) | Used if create\_oidc\_provider is true | `string` | `""` | no |
-| <a name="input_permissions"></a> [permissions](#input\_permissions) | Github Repositories than can assumerole | `map(any)` | n/a | yes |
+| <a name="input_permissions"></a> [permissions](#input\_permissions) | Permissions configuration. See 'Permissions specifications' below | `map(any)` | n/a | yes |
 
 ## Outputs
 
@@ -99,3 +99,15 @@ This module allows you to create a Github OIDC provider for your AWS account, th
 | <a name="output_oidc_provider_arn"></a> [oidc\_provider\_arn](#output\_oidc\_provider\_arn) | OIDC provider ARN |
 | <a name="output_roles_arns"></a> [roles\_arns](#output\_roles\_arns) | Roles to be assumed by github actions |
 <!-- END_TF_DOCS -->
+
+## Permissions specifications
+```hcl
+permissions = map(object({
+  "role_name": string, # optional, default: "githubActions-iamRole"
+  "allowed_branches": list(string), # optional, default: ["master"]
+  "repositories": map(object({ # optional, default: ["*":{}]
+    "role_name": string, # optional, defaults to the organisation role_name
+    "allowed_branches": list(string), # optional, defaults to the organisation allowed_branches
+  }))
+}))
+```
