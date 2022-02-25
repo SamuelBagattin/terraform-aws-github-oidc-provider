@@ -39,8 +39,9 @@ module "aws_github_actions_oidc" {
         "another-repository" = {} # Will inherit role_name and allowed_branches from the organisation
       }
     }
-    # The wildcard "*" can be used to allow any org, repository or branch
-    "*": { # Allow any organisation
+    # The wildcard "*" can be used to allow any repository or branch
+    # Can be used also for organisations, but use it at your own risk
+    "my-org": { # Allow an organisation
       repositories = {
         "*": { # Allow any repository
           role_name : "my-role"
