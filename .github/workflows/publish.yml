@@ -17,7 +17,7 @@ jobs:
       - name: gh cli auth
         run: echo "${{ secrets.GITHUB_TOKEN }}" | gh auth login --with-token
 
-      - uses: actions/setup-dotnet@v1
+      - uses: actions/setup-dotnet@v4
 
       - name: Install GitVersion
         run: git fetch --unshallow && dotnet tool install --global GitVersion.Tool
