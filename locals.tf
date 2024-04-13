@@ -1,7 +1,10 @@
 locals {
   org_defaults = {
     role_name        = "githubActions-iamRole"
-    allowed_branches = ["master"]
+    allowed_branches = ["main"]
+    allowed_tags = []
+    allowed_environments = []
+    pull_requests = false
     repositories = {
       "*" = {}
     }
