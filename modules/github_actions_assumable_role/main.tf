@@ -24,7 +24,7 @@ data "aws_iam_policy_document" "this" {
     }
     actions = ["sts:AssumeRoleWithWebIdentity"]
     condition {
-      test     = "StringLike"
+      test     = "ForAnyValue:StringLike"
       values   = var.github_subs
       variable = "token.actions.githubusercontent.com:sub"
     }
