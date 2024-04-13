@@ -31,7 +31,7 @@ jobs:
         with:
           path: ~/.tflint.d/plugins
           key: ${{ matrix.os }}-tflint-${{ hashFiles('.tflint.hcl') }}
-      - uses: terraform-linters/setup-tflint@v1
+      - uses: terraform-linters/setup-tflint@v4
         name: Setup TFLint
       - name: Init TFLint
         run: tflint --init --config tflint.hcl
