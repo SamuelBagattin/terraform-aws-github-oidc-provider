@@ -29,12 +29,12 @@ data "aws_iam_policy_document" "this" {
       variable = "token.actions.githubusercontent.com:sub"
     }
     condition {
-      test     = "StringEquals"
+      test     = "ForAllValues:StringEquals"
       values   = ["sts.amazonaws.com"]
       variable = "token.actions.githubusercontent.com:aud"
     }
     condition {
-      test     = "StringEquals"
+      test     = "ForAllValues:StringEquals"
       values   = ["https://token.actions.githubusercontent.com"]
       variable = "token.actions.githubusercontent.com:iss"
     }
