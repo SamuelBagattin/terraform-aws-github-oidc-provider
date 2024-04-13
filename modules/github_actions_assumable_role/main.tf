@@ -28,5 +28,10 @@ data "aws_iam_policy_document" "this" {
       values   = var.github_subs
       variable = "token.actions.githubusercontent.com:sub"
     }
+    condition {
+      test     = "StringEquals"
+      values   = ["sts.amazonaws.com"]
+      variable = "token.actions.githubusercontent.com:aud"
+    }
   }
 }
