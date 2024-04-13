@@ -1,10 +1,10 @@
 locals {
   org_defaults = {
-    role_name        = "githubActions-iamRole"
-    allowed_branches = ["main"]
-    allowed_tags = []
+    role_name            = "githubActions-iamRole"
+    allowed_branches     = ["main"]
+    allowed_tags         = []
     allowed_environments = []
-    pull_requests = false
+    pull_requests        = false
     repositories = {
       "*" = {}
     }
@@ -40,11 +40,11 @@ locals {
       for repo_name, repo_data in org_data["repositories"] : {
         role_name : repo_data["role_name"]
         github_subs : flatten([
-            [ for branch in repo_data["allowed_branches"] : "repo:${org_name}/${repo_name}:ref:refs/heads/${branch}"],
-            [ for tag in repo_data["allowed_tags"] : "repo:${org_name}/${repo_name}:ref:refs/tags/${tag}"],
-            [ for env in repo_data["allowed_environments"] : "repo:${org_name}/${repo_name}:environment:${env}"],
-            [ for dummy in ["DUMMY"] : "repo:${org_name}/${repo_name}:pull_request" if repo_data["pull_requests"] == true]
-          ])
+          [for branch in repo_data["allowed_branches"] : "repo:${org_name}/${repo_name}:ref:refs/heads/${branch}"],
+          [for tag in repo_data["allowed_tags"] : "repo:${org_name}/${repo_name}:ref:refs/tags/${tag}"],
+          [for env in repo_data["allowed_environments"] : "repo:${org_name}/${repo_name}:environment:${env}"],
+          [for dummy in ["DUMMY"] : "repo:${org_name}/${repo_name}:pull_request" if repo_data["pull_requests"] == true]
+        ])
       }
     ]
   ])
