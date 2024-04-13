@@ -7,7 +7,7 @@ jobs:
     name: "terraform"
     runs-on: "ubuntu-latest"
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
       - name: Cache terraform folder
@@ -25,7 +25,7 @@ jobs:
     name: "tflint"
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - uses: actions/cache@v4
         name: Cache tflint plugin dir
         with:
@@ -41,7 +41,7 @@ jobs:
     name: "tfsec"
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - name: Run tfsec with reviewdog output on the PR
         uses: reviewdog/action-tfsec@master
         with:
