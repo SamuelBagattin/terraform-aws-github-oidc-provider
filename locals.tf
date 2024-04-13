@@ -39,8 +39,8 @@ locals {
         github_subs : flatten(
             [ for branch in repo_data["allowed_branches"] : "repo:${org_name}/${repo_name}:ref:refs/heads/${branch}"],
             [ for tag in repo_data["allowed_tags"] : "repo:${org_name}/${repo_name}:ref:refs/tags/${tag}"],
-            [ for env in repo_data["allowed_environments"] : "repo:${org_name}/${repo_name}:environment:${allowed_subjet_suffixes}"],
-            [ for pr in repo_data["pull_requests"] : "repo:${org_name}/${repo_name}:ref:pull_requests" if pr == true]
+            [ for env in repo_data["allowed_environments"] : "repo:${org_name}/${repo_name}:environment:${env}"],
+            [ for dummy in ["DUMMY"] : "repo:${org_name}/${repo_name}:ref:pull_requests" if repo_data["pull_requests"] == true]
           )
       }
     ]
