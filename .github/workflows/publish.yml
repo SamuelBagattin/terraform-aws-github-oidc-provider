@@ -12,7 +12,7 @@ jobs:
     if: github.ref == 'refs/heads/main'
     environment: prod
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: gh cli auth
         run: echo "${{ secrets.GITHUB_TOKEN }}" | gh auth login --with-token
